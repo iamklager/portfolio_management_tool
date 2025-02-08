@@ -7,6 +7,8 @@ An R-Shiny dashboard/web application to track and monitor your portfolio through
 
 After wanting to add additional content to my (now deprecated) [Personal Finance Dashboard](https://github.com/iamklager/personal_finance_dashboard), I quickly realized that it would become too crowded. Therefore, I split it into two parts.
 
+The Portfolio Management Tool allows users to track, monitor and analyze their portfolios in one place. To do so, the tool makes use of various statistical measures, visualizations, and Yahoo-Finance price data.
+
 
 ## How to Run
 
