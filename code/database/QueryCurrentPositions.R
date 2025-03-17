@@ -2,6 +2,9 @@
 # 
 
 QueryCurrentPositions <- function(conn, to) {
+  if (to == format(Sys.Date(), "%Y-%m-%d")) {
+    to <- format(Sys.Date()-1, "%Y-%m-%d")
+  }
   
   # Current positions in quantities
   current_positions <- dbGetQuery(
