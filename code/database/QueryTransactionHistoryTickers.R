@@ -5,18 +5,22 @@ QueryTransactionHistoryTickers <- function(conn, from, to) {
   res <- dbGetQuery(
     conn,
     "
-    WITH Tickers AS (
-      SELECT DISTINCT TickerSymbol
+    WITH trans_tickers AS (
+      SELECT TickerSymbol, DisplayName
+      FROM transactions
+      WHERE Date <= ?
+    ),
+    trans_prices AS (
+      SELECT Distinct TickerSymbol
       FROM prices
-      WHERE Date BETWEEN ? AND ?
+      WHERE Date > ?
     )
-    SELECT DISTINCT t.TickerSymbol, a.DisplayName
-    FROM Tickers t
-    INNER JOIN transactions a
-      ON t.TickerSymbol = a.TickerSymbol
-    ORDER BY a.DisplayName ASC;
-    ", 
-    params=c(from, to)
+    SELECT t.TickerSymbol, t.DisplayName
+    FROM trans_tickers t
+    INNER JOIN trans_prices p
+      ON p.TickerSymbol = t.TickerSymbol;
+    ",
+    params=c(to, from)
   )
   
   res <- NamedTickers(res)

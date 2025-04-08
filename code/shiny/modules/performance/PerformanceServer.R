@@ -29,13 +29,19 @@ PerformanceServer <- function(
     })
     
     ## Transactions
-    observeEvent(tracking(), {
+    observeEvent(from(), {
       updateSelectizeInput(
         inputId="in_TransHistoryTicker",
         choices=QueryTransactionHistoryTickers(conn, from(), to())
       )
     })
     observeEvent(to(), {
+      updateSelectizeInput(
+        inputId="in_TransHistoryTicker",
+        choices=QueryTransactionHistoryTickers(conn, from(), to())
+      )
+    })
+    observeEvent(tracking(), {
       updateSelectizeInput(
         inputId="in_TransHistoryTicker",
         choices=QueryTransactionHistoryTickers(conn, from(), to())
