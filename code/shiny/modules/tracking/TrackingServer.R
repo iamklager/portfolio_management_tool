@@ -86,6 +86,9 @@ TrackingServer <- function(id, conn, from, to) {
     
     ## Transaction table
     transactions <- reactive({
+      input$in_TrackTransaction
+      input$in_AppendFileTransactions
+      input$in_OverwriteFileTransactions
       QueryTransactionsFromTo(conn, from(), to())
     })
     output$out_TransactionList <- renderDT({
