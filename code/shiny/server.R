@@ -18,7 +18,7 @@ Server <- function(input, output, session) {
     from=vals_sidebar()$date_from,
     to=vals_sidebar()$date_to
   )
-
+  
   # Data sets
   vals_datasets <- datasetsSever(
     id="datasets", conn=conn,
@@ -37,7 +37,7 @@ Server <- function(input, output, session) {
     aum=reactive(vals_datasets$aum),
     total_profits=reactive(vals_datasets$total_profits),
     monthly_investments=reactive(vals_datasets$monthly_investments),
-    
+
     portfolio_returns=reactive(vals_datasets$portfolio_returns),
     sharpe_ratio=reactive(vals_datasets$sharpe_ratio)
   )
@@ -52,7 +52,7 @@ Server <- function(input, output, session) {
     prices=reactive(vals_datasets$all_prices),
     aggr_prices=reactive(vals_datasets$aggr_prices),
     transactions_to=reactive(vals_datasets$transactions_to),
-    
+
     weighted_returns=reactive(vals_datasets$weighted_returns),
     asset_performance=reactive(vals_datasets$asset_performance),
     portfolio_returns=reactive(vals_datasets$portfolio_returns)

@@ -121,17 +121,15 @@ datasetsSever <- function(id, conn, today, from, to, currency, tracking, rfr) {
       
       # Transactions and positions
       ret_vals$current_positions <- QueryCurrentPositions(conn, to())
-      UpdateXRates(conn)
       UpdatePrices(conn, ret_vals$current_positions)
       ret_vals$current_positions <- QueryCurrentPositionValues(conn, ret_vals$current_positions, to())
       ret_vals$transactions_from_to <- QueryTransactionsFromTo(conn, from(), to())
       ret_vals$transactions_to <- QueryTransactionsTo(conn, to())
-      
       # Price data
       ret_vals$all_prices <- QueryAllPrices(conn, from(), to(), ret_vals$current_positions)
       ret_vals$monthly_investments <- QueryMonthlyInvestments(conn, from(), to())
       ret_vals$weighted_returns <- ComputeWeightedReturns(
-        ret_vals$transactions_to, ret_vals$current_positions, 
+        ret_vals$transactions_to, ret_vals$current_positions,
         ret_vals$all_prices, from(), to()
       )
       ret_vals$asset_performance <- ComputeAssetPerformance(ret_vals$weighted_returns)

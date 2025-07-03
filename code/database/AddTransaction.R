@@ -5,16 +5,6 @@ AddTransaction <- function(
     conn, date, display_name, quantity, price_total, ticker_symbol, 
     type, group, transaction_type, transaction_currency, source_currency
 ) {
-  if (
-    (display_name == "") || is.na(display_name) ||
-    (quantity == 0) || is.na(quantity) ||
-    (ticker_symbol == "") || is.na(ticker_symbol) ||
-    (group == "") || is.na(group) ||
-    (transaction_currency == "") || is.na(transaction_currency) ||
-    (source_currency == "") || is.na(source_currency)
-  ) {
-    return(1)
-  }
   
   transactions <- dbGetQuery(
     conn,
@@ -33,7 +23,11 @@ AddTransaction <- function(
       (group != transactions$Group) || 
       (source_currency != transactions$SourceCurrency)
     ) {
-      return(2)
+      return(paste0(
+        "Error: DisplayName, Type, Group or SourceCurrency for '",
+        ticker_symbol,
+        "' does not match existing entries!"
+      ))
     }
   }
   
@@ -58,7 +52,7 @@ AddTransaction <- function(
     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     ",
     params=c(
-      format(date, "%Y-%m-%d"), display_name, quantity, price_total, ticker_symbol, 
+      format(as.Date(date), "%Y-%m-%d"), display_name, quantity, price_total, ticker_symbol, 
       type, group, transaction_type, transaction_currency, source_currency
     )
   )

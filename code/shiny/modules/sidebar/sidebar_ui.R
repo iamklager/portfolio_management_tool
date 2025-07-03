@@ -102,7 +102,7 @@ SidebarUI <- function(id) {
     conditionalPanel(
       condition = "input.pageid == 'Tracking'",
       downloadButton(
-        outputId = "out_TransactionsDownload",
+        outputId = ns("out_TransactionsDownload"),
         label = "Download Transactions"
       )
     )

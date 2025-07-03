@@ -30,12 +30,22 @@ ComputeWeightedReturns <- function(transactions_to, positions, prices, from, to)
     t_price <- t_ptot / t_quant
     t_sign  <- ifelse(transactions_to$TransactionType[i] == "Buy", 1, -1)
     
+    # This is kinda dumb but necessary if Yahoo Finance data runs out while you still hold the asset???
+    # Random crazy returns should be a result of tickers changing?
+    if (max(p$Date) < t_date) {
+      p_temp <- data.frame(
+        Date = format(seq.Date(as.Date(max(p$Date)) + 1, Sys.Date()), "%Y-%m-%d"),
+        Adjusted = p[p$Date == max(p$Date), "Adjusted"]
+      )
+      p <- rbind(p, p_temp)
+    }
+    
     # Case: Transaction date is in the time frame
     if (t_date >= from) {
       p <- p[p$Date >= t_date, ]
       p$PriceRel <- p$Adjusted / t_price
       p$PriceRel[1] <- 1
-    
+      
     # Case: Transaction date is not in the time frame
     } else { # I can definitely write this less ugly
       ind_from <- which(p$Date >= from)[1]
